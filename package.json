@@ -1,0 +1,10 @@
+{
+  "name": "cacher",
+  "version": "0.0.1",
+  "description": "A redis alternative written in JS",
+  "main": "index.js",
+  "repository": "https://github.com/LucasArruda/cacher",
+  "author": "Lucas Arruda - lucasarruda ",
+  "license": "Apache License 2.0",
+  "private": true
+}
