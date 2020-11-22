@@ -6,5 +6,17 @@
   "repository": "https://github.com/LucasArruda/cacher",
   "author": "Lucas Arruda - lucasarruda ",
   "license": "Apache License 2.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no tests installed\" && exit 1",
+    "build": "rimraf ./build && tsc",
+    "start": "yarn build && node build/index.js",
+    "start:dev": "nodemon"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.1.2"
+  }
 }
