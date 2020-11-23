@@ -1,8 +1,8 @@
 import Cacher from './cacher';
 import { Console } from 'console';
-import express from 'express';
 
 const API_URL = '/api/v1/';
+const express = require( "express" );
 const app = express();
 
 const ok = (obj: Object | undefined): boolean => (typeof obj !== 'undefined') && obj !== null;
@@ -10,6 +10,17 @@ const ok = (obj: Object | undefined): boolean => (typeof obj !== 'undefined') &&
 app.get(`${API_URL}get/:key`, (req, res) => {
   const key : string = req.params.key;
   const result: Object | undefined = Cacher.get(key);
+
+app.get(`${API_URL}has/:key`, (req, res) => {
+  const key : string = req.params.key;
+  const result : boolean = Cacher.has(key);
+
+  res.status(200).send({
+    success: 'true',
+    message: result ? 'Object found' : 'Object not found',
+    data: result ? 'Object found' : 'Object not found'
+  });
+});
 
   if (ok(result)) {
     res.status(200).send({
