@@ -9,6 +9,7 @@
     "rootDir": "src",
     "module": "umd",            // Compatible with both Node.js and browser
     "moduleResolution": "node", // Tell tsc to look in node_modules for modules
+    "esModuleInterop": true,    // allows default imports from modules with no default export
     "sourceMap": true,          // Creates *.js.map files
     "strict": true,             // Strict types, eg. prohibits `var x=0; x=null`
     "alwaysStrict": true        // Enable JavaScript's "use strict" mode
