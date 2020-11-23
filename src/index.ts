@@ -38,6 +38,16 @@ app.get(`${API_URL}has/:key`, (req : Request, res : Response) => {
   });
 });
 
+app.post(`${API_URL}set`, (req : Request, res : Response) => {
+  const key : string = req.body.key;
+  const value : string = req.body.value;
+  Cacher.set(key, value);
+
+  res.status(200).send({
+    success: 'true'
+  });
+});
+
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
