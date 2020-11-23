@@ -12,7 +12,7 @@
     var Cacher = /** @class */ (function () {
         function Cacher() {
         }
-        Cacher.add = function (key, obj) {
+        Cacher.set = function (key, obj) {
             this.map.set(key, obj);
         };
         Cacher.get = function (key) {

@@ -1,7 +1,7 @@
 export default class Cacher {
   static map: Map<string, Object> = new Map<string, Object>();
 
-  static add(key: string, obj: Object) {
+  static set(key: string, obj: Object){
     this.map.set(key, obj);
   }
 
