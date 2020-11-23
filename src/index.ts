@@ -26,6 +26,18 @@ app.get(`${API_URL}get/:key`, (req : Request, res : Response) => {
     });
   }
 });
+
+app.get(`${API_URL}has/:key`, (req : Request, res : Response) => {
+  const key : string = req.params.key;
+  const result : boolean = Cacher.has(key);
+
+  res.status(200).send({
+    success: 'true',
+    message: result ? 'Object found' : 'Object not found',
+    result: result ? 'Object found' : 'Object not found'
+  });
+});
+
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
