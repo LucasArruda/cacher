@@ -47,23 +47,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         });
     });
     app.post(API_URL + "set", function (req, res) {
-        var key = req.params.key;
-        var value = req.params.value;
-        var result = cacher_1.default.get(key);
-        if (ok(result)) {
-            res.status(200).send({
-                success: 'true',
-                message: 'Object retrieved',
-                result: result
-            });
-        }
-        else {
-            res.status(404).send({
-                success: 'false',
-                message: 'Object not found',
-                error: "Object was not found with key: " + key
-            });
-        }
+        var key = req.body.key;
+        var value = req.body.value;
+        cacher_1.default.set(key, value);
+        res.status(200).send({
+            success: 'true'
+        });
     });
     var PORT = 5000;
     app.listen(PORT, function () {
