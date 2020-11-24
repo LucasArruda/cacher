@@ -13,7 +13,7 @@ export default class Cacher {
     return this.map.has(key);
   }
 
-  static remove(key: string): boolean {
+  static del(key: string): boolean {
     if (!this.has(key)) return false;
 
     return this.map.delete(key);

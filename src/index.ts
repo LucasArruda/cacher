@@ -5,7 +5,6 @@ import { Router, Request, Response, NextFunction } from 'express';
 const API_URL = '/api/v1/';
 const app = express();
 
-
 const ok = (obj: Object | undefined): boolean => (typeof obj !== 'undefined') && obj !== null;
 
 app.get(`${API_URL}get/:key`, (req : Request, res : Response) => {
@@ -46,6 +45,24 @@ app.post(`${API_URL}set`, (req : Request, res : Response) => {
   res.status(200).send({
     success: 'true'
   });
+});
+
+app.delete(`${API_URL}remove/:key`, (req : Request, res : Response) => {
+  const key : string = req.params.key;
+  const result : boolean = Cacher.del(key);
+
+  if (ok(result)) {
+    res.status(200).send({
+      success: 'true',
+      message: 'Object deleted'
+    });
+  } else {
+    res.status(404).send({
+      success: 'false',
+      message: 'Object not found or could not be deleted',
+      error: `Object with key "${key}" was not found or could not be deleted`
+    });
+  }
 });
 
 const PORT = 5000;
