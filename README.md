@@ -1,2 +1,3 @@
-# cacher
-A redis alternative written in JS
+# Cacher
+
+A redis alternative written in TS/JS.
