@@ -21,7 +21,7 @@
         Cacher.has = function (key) {
             return this.map.has(key);
         };
-        Cacher.remove = function (key) {
+        Cacher.del = function (key) {
             if (!this.has(key))
                 return false;
             return this.map.delete(key);

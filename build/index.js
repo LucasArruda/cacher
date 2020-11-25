@@ -7,17 +7,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./cacher", "express"], factory);
+        define(["require", "exports", "./cacher", "express", "body-parser"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var cacher_1 = __importDefault(require("./cacher"));
     var express_1 = __importDefault(require("express"));
+    var body_parser_1 = __importDefault(require("body-parser"));
     var API_URL = '/api/v1/';
     var app = express_1.default();
-    cacher_1.default.set('test', 'oi');
-    console.log('testing', cacher_1.default.get('test'));
+    // create application/json parser
+    var jsonParser = body_parser_1.default.json();
+    // create application/x-www-form-urlencoded parser
+    var urlencodedParser = body_parser_1.default.urlencoded({ extended: false });
     var ok = function (obj) { return (typeof obj !== 'undefined') && obj !== null; };
     app.get(API_URL + "get/:key", function (req, res) {
         var key = req.params.key;
@@ -46,17 +49,39 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             result: result ? 'Object found' : 'Object not found'
         });
     });
-    app.post(API_URL + "set", function (req, res) {
+    app.post(API_URL + "set", jsonParser, function (req, res) {
         var key = req.body.key;
         var value = req.body.value;
+        console.log('key', key);
+        console.log('key', key);
         cacher_1.default.set(key, value);
         res.status(200).send({
             success: 'true'
         });
     });
-    var PORT = 5000;
-    app.listen(PORT, function () {
-        console.log("server running on port " + PORT);
+    app.delete(API_URL + "remove/:key", function (req, res) {
+        var key = req.params.key;
+        var result = cacher_1.default.del(key);
+        if (ok(result)) {
+            res.status(200).send({
+                success: 'true',
+                message: 'Object deleted'
+            });
+        }
+        else {
+            res.status(404).send({
+                success: 'false',
+                message: 'Object not found or could not be deleted',
+                error: "Object with key \"" + key + "\" was not found or could not be deleted"
+            });
+        }
     });
+    if (process.env.NODE_ENV === "dev") {
+        var PORT_1 = 5000;
+        app.listen(PORT_1, function () {
+            console.log("server running on port " + PORT_1);
+        });
+    }
+    module.exports = app;
 });
 //# sourceMappingURL=index.js.map

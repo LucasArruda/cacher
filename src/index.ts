@@ -1,9 +1,12 @@
 import Cacher from './cacher';
 import express from 'express';
-import { Router, Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
+import bodyParser from 'body-parser';
 
 const API_URL = '/api/v1/';
 const app = express();
+
+const jsonParser = bodyParser.json();
 
 const ok = (obj: Object | undefined): boolean => (typeof obj !== 'undefined') && obj !== null;
 
@@ -33,13 +36,14 @@ app.get(`${API_URL}has/:key`, (req : Request, res : Response) => {
   res.status(200).send({
     success: 'true',
     message: result ? 'Object found' : 'Object not found',
-    result: result ? 'Object found' : 'Object not found'
+    result: result
   });
 });
 
-app.post(`${API_URL}set`, (req : Request, res : Response) => {
+app.post(`${API_URL}set`, jsonParser, (req : Request, res : Response) => {
   const key : string = req.body.key;
   const value : string = req.body.value;
+
   Cacher.set(key, value);
 
   res.status(200).send({
@@ -51,7 +55,7 @@ app.delete(`${API_URL}remove/:key`, (req : Request, res : Response) => {
   const key : string = req.params.key;
   const result : boolean = Cacher.del(key);
 
-  if (ok(result)) {
+  if (result) {
     res.status(200).send({
       success: 'true',
       message: 'Object deleted'
@@ -65,7 +69,11 @@ app.delete(`${API_URL}remove/:key`, (req : Request, res : Response) => {
   }
 });
 
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`)
-});
+if (process.env.NODE_ENV === "dev") {
+  const PORT = 5000;
+  app.listen(PORT, () => {
+    console.log(`server running on port ${PORT}`)
+  });
+}
+
+module.exports = app;
