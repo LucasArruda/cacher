@@ -102,7 +102,6 @@ describe('server', () => {
 
       request(server).post(`${API_URL}set`).send({ key, value })
       .then(res => {
-
         expect(res.status).toBe(200);
 
         request(server)
@@ -111,7 +110,7 @@ describe('server', () => {
           expect(res1.status).toBe(200);
           expect(res1.body.result).toEqual(value);
 
-          request(server).post(`${API_URL}set`).send({ key, new_value })
+          request(server).post(`${API_URL}set`).send({ key, value: new_value })
           .then(res2 => {
 
             expect(res2.status).toBe(200);
@@ -119,6 +118,7 @@ describe('server', () => {
             request(server)
             .get(`${API_URL}get/${key}`)
             .then(res3 => {
+
               expect(res3.status).toBe(200);
               expect(res3.body.result).toEqual(new_value);
 
