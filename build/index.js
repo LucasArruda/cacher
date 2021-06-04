@@ -17,10 +17,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     var body_parser_1 = __importDefault(require("body-parser"));
     var API_URL = '/api/v1/';
     var app = express_1.default();
-    // create application/json parser
     var jsonParser = body_parser_1.default.json();
-    // create application/x-www-form-urlencoded parser
-    var urlencodedParser = body_parser_1.default.urlencoded({ extended: false });
     var ok = function (obj) { return (typeof obj !== 'undefined') && obj !== null; };
     app.get(API_URL + "get/:key", function (req, res) {
         var key = req.params.key;
@@ -46,14 +43,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         res.status(200).send({
             success: 'true',
             message: result ? 'Object found' : 'Object not found',
-            result: result ? 'Object found' : 'Object not found'
+            result: result
         });
     });
     app.post(API_URL + "set", jsonParser, function (req, res) {
         var key = req.body.key;
         var value = req.body.value;
-        console.log('key', key);
-        console.log('key', key);
         cacher_1.default.set(key, value);
         res.status(200).send({
             success: 'true'
@@ -62,7 +57,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     app.delete(API_URL + "remove/:key", function (req, res) {
         var key = req.params.key;
         var result = cacher_1.default.del(key);
-        if (ok(result)) {
+        if (result) {
             res.status(200).send({
                 success: 'true',
                 message: 'Object deleted'
